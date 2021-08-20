@@ -1,0 +1,43 @@
+### CREATE TODO
+POST http://localhost:3000/api/todos
+X-API-Key: SECRET
+Accept: application/json
+Content-Type: application/json
+
+{
+  "task": "belajar docker",
+  "starting_at": "20:16:00",
+  "ends_at": "20:17:00"
+}
+
+### GET TODO
+GET http://localhost:3000/api/todos
+X-API-Key: SECRET
+Accept: application/json
+
+### GET TODO BY ID
+GET http://localhost:3000/api/todos/921f1b5f-e95f-4331-8caa-62d2cc6a9613
+X-API-Key: SECRET
+Accept: application/json
+
+### DELETE BY ID
+DELETE http://localhost:3000/api/todos/921f1b5f-e95f-4331-8caa-62d2cc6a9613
+X-API-Key: SECRET
+Accept: application/json
+
+### UPDATE TODO
+PUT http://localhost:3000/api/todos/921f1b5f-e95f-4331-8caa-62d2cc6a9613
+X-API-Key: SECRET
+Accept: application/json
+Content-Type: application/json
+
+{
+  "task": "belajar kubernetess",
+  "starting_at": "20:5:10",
+  "ends_at": "23:4:10"
+}
+
+### UPDATE STATUS
+PATCH http://localhost:3000/api/todos/921f1b5f-e95f-4331-8caa-62d2cc6a9613
+X-API-Key: SECRET
+Accept: application/json
