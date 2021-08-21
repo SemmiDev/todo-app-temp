@@ -1,0 +1,91 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Todo App RESTful API",
+    "description": "API Spec for Todo App RESTful API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api"
+    }
+  ],
+  "paths": {
+    "/todos": {
+      "get": {
+        "security": [{
+          "TodoAuth" : []
+        }],
+        "tags": [
+          "Todo API"
+        ],
+        "description": "List all Todos",
+        "summary": "List all Todos",
+        "responses": {
+          "200": {
+            "description": "Success get all Todos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Todo"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "TodoAuth" : {
+        "type": "apiKey",
+        "in" : "header",
+        "name": "X-API-Key",
+        "description": "Authentication for Todo API"
+      }
+    },
+    "schemas": {
+      "Todo" : {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "task": {
+            "type": "string"
+          },
+          "starting_at": {
+            "type": "string"
+          },
+          "ends_at": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "number"
+          },
+          "expired": {
+            "type": "integer"
+          },
+          "done": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

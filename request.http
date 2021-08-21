@@ -5,7 +5,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "task": "belajar golang",
+  "task": "belajar golang"
 }
 
 ### GET TODO
@@ -14,12 +14,12 @@ X-API-Key: SECRET
 Accept: application/json
 
 ### GET TODO BY ID
-GET http://localhost:3000/api/todos/493caa29-72e3-4caa-a376-cc8dd2abe637
+GET http://localhost:3000/api/todos/23e1ab70-e3b3-4bee-a31b-93ecdaa4181b
 X-API-Key: SECRET
 Accept: application/json
 
 ### DELETE BY ID
-DELETE http://localhost:3000/api/todos/921f1b5f-e95f-4331-8caa-62d2cc6a9613
+DELETE http://localhost:3000/api/todos/23e1ab70-e3b3-4bee-a31b-93ecdaa4181b
 X-API-Key: SECRET
 Accept: application/json
 
