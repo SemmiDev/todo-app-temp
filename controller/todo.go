@@ -34,8 +34,8 @@ func (controller *ToDoControllerImpl) Create(writer http.ResponseWriter, request
 
 	todoResponse := controller.ToDoService.Create(request.Context(), categoryCreateRequest)
 	webResponse := web.WebResponse{
-		Code:   200,
-		Status: "OK",
+		Code:   http.StatusCreated,
+		Status: http.StatusText(http.StatusCreated),
 		Data:   todoResponse,
 	}
 
@@ -52,8 +52,8 @@ func (controller *ToDoControllerImpl) Update(writer http.ResponseWriter, request
 
 	todoResponse := controller.ToDoService.Update(request.Context(), todoUpdateReq)
 	webResponse := web.WebResponse{
-		Code:   200,
-		Status: "OK",
+		Code:   http.StatusOK,
+		Status: http.StatusText(http.StatusOK),
 		Data:   todoResponse,
 	}
 
@@ -65,8 +65,8 @@ func (controller *ToDoControllerImpl) UpdateStatus(writer http.ResponseWriter, r
 
 	todoResponse := controller.ToDoService.UpdateStatus(request.Context(), todoId)
 	webResponse := web.WebResponse{
-		Code:   200,
-		Status: "OK",
+		Code:   http.StatusOK,
+		Status: http.StatusText(http.StatusOK),
 		Data:   todoResponse,
 	}
 
@@ -78,8 +78,8 @@ func (controller *ToDoControllerImpl) Delete(writer http.ResponseWriter, request
 
 	controller.ToDoService.Delete(request.Context(), todoId)
 	webResponse := web.WebResponse{
-		Code:   200,
-		Status: "OK",
+		Code:   http.StatusOK,
+		Status: http.StatusText(http.StatusOK),
 	}
 
 	helper.WriteToResponseBody(writer, webResponse)
@@ -90,8 +90,8 @@ func (controller *ToDoControllerImpl) FindById(writer http.ResponseWriter, reque
 
 	todoResponse := controller.ToDoService.FindById(request.Context(), todoId)
 	webResponse := web.WebResponse{
-		Code:   200,
-		Status: "OK",
+		Code:   http.StatusOK,
+		Status: http.StatusText(http.StatusOK),
 		Data:   todoResponse,
 	}
 
@@ -101,9 +101,10 @@ func (controller *ToDoControllerImpl) FindById(writer http.ResponseWriter, reque
 func (controller *ToDoControllerImpl) FindAll(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	todoResponses := controller.ToDoService.FindAll(request.Context())
 	webResponse := web.WebResponse{
-		Code:   200,
-		Status: "OK",
+		Code:   http.StatusOK,
+		Status: http.StatusText(http.StatusOK),
 		Data:   todoResponses,
 	}
+
 	helper.WriteToResponseBody(writer, webResponse)
 }

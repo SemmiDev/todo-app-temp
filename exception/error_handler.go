@@ -11,6 +11,9 @@ func ErrorHandler(writer http.ResponseWriter, request *http.Request, err interfa
 	if notFoundError(writer, request, err) {
 		return
 	}
+	if timeNotValidError(writer, request, err) {
+		return
+	}
 	if validationErrors(writer, request, err) {
 		return
 	}
@@ -66,4 +69,23 @@ func internalServerError(writer http.ResponseWriter, request *http.Request, err 
 	}
 
 	helper.WriteToResponseBody(writer, webResponse)
+}
+
+func timeNotValidError(writer http.ResponseWriter, request *http.Request, err interface{}) bool {
+	exception, ok := err.(TimeNotValidError)
+	if ok {
+		writer.Header().Set("Content-Type", "application/json")
+		writer.WriteHeader(http.StatusNotFound)
+
+		webResponse := web.WebResponse{
+			Code:   http.StatusBadRequest,
+			Status: "BAD REQUEST",
+			Data:   exception.Error,
+		}
+
+		helper.WriteToResponseBody(writer, webResponse)
+		return true
+	} else {
+		return false
+	}
 }

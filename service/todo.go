@@ -43,7 +43,10 @@ func (service *TodoServiceImpl) Create(ctx context.Context, request web.CreateTo
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
 
-	starting, ends, duration := helper.ExtractTodoTime(request.StartingAt, request.EndsAt)
+	starting, ends, duration, timeErr := helper.ExtractTodoTime(request.StartingAt, request.EndsAt)
+	if timeErr != nil {
+		panic(exception.NewTimeNotValidError(timeErr.Error()))
+	}
 
 	todo := domain.ToDo{
 		Id:         uuid.NewString(),
@@ -56,6 +59,7 @@ func (service *TodoServiceImpl) Create(ctx context.Context, request web.CreateTo
 	}
 
 	todoResponse := service.TodoRepository.Save(ctx, tx, todo)
+
 	return helper.ToTodoResponse(todoResponse)
 }
 
@@ -72,7 +76,11 @@ func (service *TodoServiceImpl) Update(ctx context.Context, request web.UpdateTo
 		panic(exception.NewNotFoundError(err.Error()))
 	}
 
-	starting, ends, duration := helper.ExtractTodoTime(request.StartingAt, request.EndsAt)
+	starting, ends, duration, timeErr := helper.ExtractTodoTime(request.StartingAt, request.EndsAt)
+	if timeErr != nil {
+		panic(exception.NewTimeNotValidError(timeErr.Error()))
+	}
+
 	todo.Task = request.Task
 	todo.StartingAt = starting
 	todo.EndsAt = ends
@@ -81,6 +89,7 @@ func (service *TodoServiceImpl) Update(ctx context.Context, request web.UpdateTo
 	todo.Done = 0
 
 	todoUpdateResponse := service.TodoRepository.Update(ctx, tx, todo)
+
 	return helper.ToTodoResponse(todoUpdateResponse)
 }
 
@@ -93,7 +102,9 @@ func (service *TodoServiceImpl) UpdateStatus(ctx context.Context, todoId string)
 	if err != nil {
 		panic(exception.NewNotFoundError(err.Error()))
 	}
+
 	todoUpdateStatusResponse := service.TodoRepository.UpdateStatus(ctx, tx, todo)
+
 	return helper.ToTodoResponse(todoUpdateStatusResponse)
 }
 
@@ -106,6 +117,7 @@ func (service *TodoServiceImpl) Delete(ctx context.Context, todoId string) {
 	if err != nil {
 		panic(exception.NewNotFoundError(err.Error()))
 	}
+
 	service.TodoRepository.Delete(ctx, tx, todo)
 }
 
@@ -128,5 +140,6 @@ func (service *TodoServiceImpl) FindAll(ctx context.Context) []*web.ToDoResponse
 	defer helper.CommitOrRollback(tx)
 
 	todos := service.TodoRepository.FindAll(ctx, tx)
+
 	return helper.ToTodoResponses(todos)
 }
